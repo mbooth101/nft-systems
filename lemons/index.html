@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="nft">
+	<div>
+	<h1>Nerdfighteria Citrus Requisition System</h1>
+	<p>Total Lemons Requisitioned: <span class="citrusNum" id="lemonTotal">0</span></p>
+	<p>Current Lemons In Stock: <span class="citrusNum" id="lemonCount">0</span></p>
+	<p>Total Limes Requisitioned: <span class="citrusNum" id="limeTotal">0</span></p>
+	<p>Current Limes In Stock: <span class="citrusNum" id="limeCount">0</span></p>
+
+	<h2>Instructions (DO NOT READ)</h2>
+	<p>Please use Form 245-B to get a lemon from the citrus stock.</p>
+	<p>If there are no lemons in stock, please use form 821-C to submit a purchase order for more lemons.</p>
+
+	<h2>Form  245-B</h2>
+	<form id="citrus_get" action="">
+		<p>
+		<label for="get_user">User ID:</label> <span class="mandatory">*</span>
+		<input type="text" id="get_user" name="get_user" />
+		</p>
+		<p>
+		<label for="get_brit">Please check this box if you are British:</label>
+		<input type="checkbox" id="get_brit" name="get_brit" />
+		<br/>
+		<small>(This data collected in compliance with EU Directive 8R3X.1T requirements)</small>
+		</p>
+		<p>
+		<button type="submit">SUBMIT CITRUS REQUISITION</button>
+		</p>
+	</form>
+	<h2>Form 821-C</h2>
+	<form id="citrus_order" action="">
+		<p>
+		<label for="order_user">User ID:</label> <span class="mandatory">*</span>
+		<input type="text" id="order_user" name="order_user" />
+		</p>
+		<p>
+		<label for="order_brit">Please check this box if you are British:</label>
+		<input type="checkbox" id="order_brit" name="order_brit" />
+		<br/>
+		<small>(This data collected in compliance with EU Directive 8R3X.1T requirements)</small>
+		</p>
+		<p>
+		<label for="order_quant">Quantity:</label> <span class="mandatory">*</span>
+		<input type="number" id="order_quant" name="order_quant" min="0" max="420" />
+		</p>
+		<p>
+		<button type="submit">SUBMIT CITRUS PURCHASE ORDER</button>
+		</p>
+	</form>
+	<small>(c) NFT Inc. 1994-1999 | Best viewed on Internet Explorer 5 or Netscape Navigator 4</small>
+	</div>
+<script>
+	let getForm = document.getElementById('citrus_get');
+	getForm.addEventListener('submit', (e) => {
+		e.preventDefault();
+		let u = document.getElementById('get_user');
+		if (u.value == null || u.value == "") {
+			alert("Please Fill In All Required Fields 😠");
+		}
+	});
+
+	let orderForm = document.getElementById('citrus_order');
+	orderForm.addEventListener('submit', (e) => {
+		e.preventDefault();
+		let u = document.getElementById('order_user');
+		let q = document.getElementById('order_quant');
+		if (u.value == null || u.value == "" || q.value == null || q.value == "") {
+			alert("Please Fill In All Required Fields 😠");
+		}
+	});
+
+	function updateLemons(data) {
+		document.getElementById('lemonTotal').textContent = data.total;
+		document.getElementById('lemonCount').textContent = data.count;
+	}
+	function updateLimes(data) {
+		document.getElementById('limeTotal').textContent = data.total;
+		document.getElementById('limeCount').textContent = data.count;
+	}
+</script>
+<script type="module">
+	// Import the functions you need from the SDKs you need
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+	// TODO: Add SDKs for Firebase products that you want to use
+	// https://firebase.google.com/docs/web/setup#available-libraries
+	import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+	// Your web app's Firebase configuration
+	const firebaseConfig = {
+		apiKey: "AIzaSyCblJjEwi2iseqSShfYCnhgORKDoHklkuM",
+		authDomain: "nft-systems.firebaseapp.com",
+		databaseURL: "https://nft-systems-default-rtdb.europe-west1.firebasedatabase.app",
+		projectId: "nft-systems",
+		storageBucket: "nft-systems.appspot.com",
+		messagingSenderId: "127549558739",
+		appId: "1:127549558739:web:c4f4dc58b52b30d548e926"
+	};
+
+	// Initialize Firebase
+	const app = initializeApp(firebaseConfig);
+
+	// Initialize Realtime Database and get a reference to the service
+	const db = getDatabase(app);
+
+	const lastorderRef = ref(db, 'citrus/lastorder');
+	const lemonRef = ref(db, 'citrus/lemons');
+	const limeRef = ref(db, 'citrus/limes');
+	const histRef = ref(db, 'citrus/history');
+	onValue(lemonRef, (snapshot) => {
+		const data = snapshot.val();
+		updateLemons(data);
+	});
+	onValue(limeRef, (snapshot) => {
+		const data = snapshot.val();
+		updateLimes(data);
+	});
+</script>
+</body>
+</html>
