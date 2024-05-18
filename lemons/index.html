@@ -16,7 +16,7 @@ Go on, off ya fuck, ya nosey bastard!
 	<p>Current Limes In Stock: <span class="citrusNum" id="limeCount">0</span></p>
 
 	<h2>Instructions (DO NOT READ)</h2>
-	<p>Please use Form 245-B to get a lemon from the citrus stock.</p>
+	<p>Please use Form 245-B to requisition a lemon from the citrus stock.</p>
 	<p>If there are no lemons in stock, please use form 821-C to submit a purchase order for more lemons.</p>
 
 	<h2>Form  245-B</h2>
@@ -64,7 +64,9 @@ Go on, off ya fuck, ya nosey bastard!
 		let u = document.getElementById('get_user');
 		if (u.value == null || u.value == "") {
 			alert("Please Fill In All Required Fields 😠");
+			return;
 		}
+
 	});
 
 	let orderForm = document.getElementById('citrus_order');
@@ -74,7 +76,9 @@ Go on, off ya fuck, ya nosey bastard!
 		let q = document.getElementById('order_quant');
 		if (u.value == null || u.value == "" || q.value == null || q.value == "") {
 			alert("Please Fill In All Required Fields 😠");
+			return;
 		}
+
 	});
 
 	function updateLemons(data) {
