@@ -12,12 +12,12 @@ Go on, off ya fuck, ya nosey bastard!
 	<h1>Nerdfighteria PTO Request System</h1>
 	<form id="request_form" action="">
 		<p>
-		<label for="user">User ID:</label> <span class="mandatory">*</span>
-		<input type="text" id="user" name="pto_user" />
+		<label for="pto_user">User ID:</label> <span class="mandatory">*</span>
+		<input type="text" id="pto_user" name="pto_user" />
 		</p>
 		<p>
-		<label for="reason">PTO Reason:</label> <span class="mandatory">*</span>
-		<select id="reason" name="pto_reason" onchange="onReasonChange(this.value);">
+		<label for="pto_reason">PTO Reason:</label> <span class="mandatory">*</span>
+		<select id="pto_reason" name="pto_reason" onchange="onReasonChange(this.value);">
 			<option>Vacation</option>
 			<option>Staycation</option>
 			<option>National Holiday</option>
@@ -35,16 +35,20 @@ Go on, off ya fuck, ya nosey bastard!
 		</select>
 		</p>
 		<p>
-			<label for="reason_other">If "other" please specify:</label>
-			<input type="text" id="reason_other" name="pto_reason_other" disabled="disabled" />
+			<label for="pto_reason_other">If "other" please specify:</label>
+			<input type="text" id="pto_reason_other" name="pto_reason_other" disabled="disabled" />
 		</p>
 		<p>
-			<label for="start">Start date:</label> <span class="mandatory">*</span>
-			<input type="date" id="start" name="pto_start" />
+			<label for="pto_start">Start date:</label> <span class="mandatory">*</span>
+			<input type="date" id="pto_start" name="pto_start" />
 		</p>
 		<p>
-			<label for="end">End date:</label> <span class="mandatory">*</span>
-			<input type="date" id="end" name="pto_end" />
+			<label for="pto_end">End date:</label> <span class="mandatory">*</span>
+			<input type="date" id="pto_end" name="pto_end" />
+		</p>
+		<p>
+			<label for="pto_days">I totally know how many days that is, and as a computer with a galaxy brain I can totally do the maths and don't need you to tell me. However, just so we're both on the same page, please enter the number of days off you have requested: 😅</label> <span class="mandatory">*</span>
+			<input type="number" id="pto_days" name="pto_days" />
 		</p>
 		<p>
 			<input type="submit" value="Send Request" />
@@ -53,8 +57,20 @@ Go on, off ya fuck, ya nosey bastard!
 	<small>(c) NFT Inc. 1994-1999 | Best viewed on Internet Explorer 5 or Netscape Navigator 4</small>
 	</div>
 <script>
+	let ptoForm = document.getElementById('request_form');
+	ptoForm.addEventListener('submit', (e) => {
+		e.preventDefault();
+		let u = document.getElementById('pto_user');
+		let start = document.getElementById('pto_start');
+		let end = document.getElementById('pto_end');
+		let days = document.getElementById('pto_days');
+		if (u.value == null || u.value == "" || start.value == null || start.value == "" || end.value == null || end.value == "" || days.value == null || days.value == "") {
+			alert("Please Fill In All Required Fields 😠");
+		}
+	});
+
 	function onReasonChange(value) {
-		document.getElementById('reason_other').disabled = (value != "Other" && value != "Food Coma (Other)");
+		document.getElementById('pto_reason_other').disabled = (value != "Other" && value != "Food Coma (Other)");
 	}
 </script>
 </body>
