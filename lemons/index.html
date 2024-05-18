@@ -32,6 +32,10 @@ Go on, off ya fuck, ya nosey bastard!
 		<small>(This data collected in compliance with EU Directive 8R3X.1T requirements)</small>
 		</p>
 		<p>
+		<label for="get_reason">Citrus Purpose (Citrurpose):</label> <span class="mandatory">*</span>
+		<input type="text" id="get_reason" name="get_reason" placeholder="e.g. for cronching" />
+		</p>
+		<p>
 		<button type="submit">SUBMIT CITRUS REQUISITION</button>
 		</p>
 	</form>
@@ -55,45 +59,15 @@ Go on, off ya fuck, ya nosey bastard!
 		<button type="submit">SUBMIT CITRUS PURCHASE ORDER</button>
 		</p>
 	</form>
+	<h2>Citrus History (Citrustory)</h2>
+	<ul id=history>
+	</ul>
 	<small>(c) NFT Inc. 1994-1999 | Best viewed on Internet Explorer 5 or Netscape Navigator 4</small>
 	</div>
-<script>
-	let getForm = document.getElementById('citrus_get');
-	getForm.addEventListener('submit', (e) => {
-		e.preventDefault();
-		let u = document.getElementById('get_user');
-		if (u.value == null || u.value == "") {
-			alert("Please Fill In All Required Fields 😠");
-			return;
-		}
-
-	});
-
-	let orderForm = document.getElementById('citrus_order');
-	orderForm.addEventListener('submit', (e) => {
-		e.preventDefault();
-		let u = document.getElementById('order_user');
-		let q = document.getElementById('order_quant');
-		if (u.value == null || u.value == "" || q.value == null || q.value == "") {
-			alert("Please Fill In All Required Fields 😠");
-			return;
-		}
-
-	});
-
-	function updateLemons(data) {
-		document.getElementById('lemonTotal').textContent = data.total;
-		document.getElementById('lemonCount').textContent = data.count;
-	}
-	function updateLimes(data) {
-		document.getElementById('limeTotal').textContent = data.total;
-		document.getElementById('limeCount').textContent = data.count;
-	}
-</script>
 <script type="module">
 	// Import the functions you need from the SDKs you need
 	import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-	import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+	import { getDatabase, ref, onValue, increment, update, push, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 	// Your web app's Firebase configuration
 	const firebaseConfig = {
@@ -106,10 +80,8 @@ Go on, off ya fuck, ya nosey bastard!
 		appId: "1:127549558739:web:c4f4dc58b52b30d548e926"
 	};
 
-	// Initialize Firebase
+	// Initialize Firebase Realtime Database
 	const app = initializeApp(firebaseConfig);
-
-	// Initialize Realtime Database and get a reference to the service
 	const db = getDatabase(app);
 
 	const lastorderRef = ref(db, 'citrus/lastorder');
@@ -124,6 +96,108 @@ Go on, off ya fuck, ya nosey bastard!
 		const data = snapshot.val();
 		updateLimes(data);
 	});
+	onValue(histRef, (snapshot) => {
+		let hist = document.getElementById('history');
+		hist.replaceChildren();
+		if (snapshot.val() != null) {
+			snapshot.forEach((childSnapshot) => {
+				const data = childSnapshot.val();
+				let entry = document.createElement("li");
+				let time = new Date(parseInt(data.timestamp)).toLocaleString();
+				if (data.type == "order") {
+					let text = time + ' - ' + data.user + ' ordered ' + data.quantity + ' ' + data.citrus + (parseInt(data.quantity) != 1 ? 's' : '');
+					entry.appendChild(document.createTextNode(text));
+				} else {
+					let text = time + ' - ' + data.user + ' requisitioned a ' + data.citrus + ' for the purposes of "' + data.reason + '"';
+					entry.appendChild(document.createTextNode(text));
+				}
+				hist.appendChild(entry);
+			});
+		}
+	});
+
+	let getForm = document.getElementById('citrus_get');
+	getForm.addEventListener('submit', (e) => {
+		e.preventDefault();
+		let u = document.getElementById('get_user');
+		let r = document.getElementById('get_reason');
+		if (u.value == null || u.value == "" || r.value == null || r.value == "") {
+			alert("Please Fill In All Required Fields 😠");
+			return;
+		}
+		const updates = {};
+		let brit = document.getElementById('get_brit');
+		if (brit.checked) {
+			updates['citrus/limes/total'] = increment(1);
+			updates['citrus/limes/count'] = increment(-1);
+		} else {
+			updates['citrus/lemons/total'] = increment(1);
+			updates['citrus/lemons/count'] = increment(-1);
+		}
+		let now = Date.now();
+		const dbRef = ref(db);
+		update(dbRef, updates);
+
+		const entry = {};
+		entry['timestamp'] = now;
+		entry['user'] = u.value;
+		entry['quantity'] = 1;
+		entry['type'] = 'get';
+		entry['reason'] = r.value;
+		entry['citrus'] = (brit.checked ? 'lime' : 'lemon');
+		const histEntryRef = push(histRef);
+		set(histEntryRef, entry);
+	});
+
+	let orderForm = document.getElementById('citrus_order');
+	orderForm.addEventListener('submit', (e) => {
+		e.preventDefault();
+		let u = document.getElementById('order_user');
+		let q = document.getElementById('order_quant');
+		if (u.value == null || u.value == "" || q.value == null || q.value == "") {
+			alert("Please Fill In All Required Fields 😠");
+			return;
+		}
+		const updates = {};
+		let brit = document.getElementById('order_brit');
+		if (brit.checked) {
+			updates['citrus/limes/count'] = increment(parseInt(q.value));
+		} else {
+			updates['citrus/lemons/count'] = increment(parseInt(q.value));
+		}
+		let now = Date.now();
+		updates['citrus/lastorder'] = now;
+		const dbRef = ref(db);
+		update(dbRef, updates);
+
+		const entry = {};
+		entry['timestamp'] = now;
+		entry['user'] = u.value;
+		entry['quantity'] = q.value;
+		entry['type'] = 'order';
+		entry['citrus'] = (brit.checked ? 'lime' : 'lemon');
+		const histEntryRef = push(histRef);
+		set(histEntryRef, entry);
+	});
+
+	function updateLemons(data) {
+		document.getElementById('lemonTotal').textContent = data.total;
+		document.getElementById('lemonCount').textContent = data.count;
+		if (parseInt(data.count) >= 0) {
+			document.getElementById('lemonCount').classList.remove("citrusNumNeg");
+		} else {
+			document.getElementById('lemonCount').classList.add("citrusNumNeg");
+		}
+	}
+	function updateLimes(data) {
+		document.getElementById('limeTotal').textContent = data.total;
+		document.getElementById('limeCount').textContent = data.count;
+		if (parseInt(data.count) >= 0) {
+			document.getElementById('limeCount').classList.remove("citrusNumNeg");
+		} else {
+			document.getElementById('limeCount').classList.add("citrusNumNeg");
+		}
+	}
 </script>
 </body>
 </html>
