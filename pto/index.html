@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="../styles.css" />
+	<script>
+function onSelectionChange(value)
+{
+	    document.getElementById('reason_other').disabled = (value != "Other");
+}
+
+function denyPtoRequest()
+{
+	if (document.getElementById('user').value.toUpperCase() === "SBEANS") {
+		document.getElementById('request_form').style.display = 'none';
+		
+	}
+}
+	</script>
+</head>
+<body class="nft">
+	<div>
+	<h1>Nerdfighteria PTO Request System</h1>
+	<form id="request_form" onsubmit="return denyPtoRequest();">
+		<p>
+			<label for="user">User ID:</label> <span class="mandatory">*</span>
+			<input type="text" id="user" name="pto_user" />
+		</p>
+		<p>
+			<label for="reason">PTO Reason:</label> <span class="mandatory">*</span>
+			<select id="reason" name="pto_reason" onchange="onSelectionChange(this.value);">
+				<option>Vacation</option>
+				<option>Staycation</option>
+				<option>National Holiday</option>
+				<option>Illness</option>
+				<option>Hungover</option>
+				<option>Still Drunk</option>
+				<option>Mat. Leave</option>
+				<option>Pat. Leave</option>
+				<option>Cat Leave</option>
+				<option>Bat Leave</option>
+				<option>Garden Leave</option>
+				<option>Food Coma (Cheese)</option>
+				<option>Food Coma (Other)</option>
+				<option>Other</option>
+			</select>
+		</p>
+		<p>
+			<label for="reason_other">If "other" please specify:</label>
+			<input type="text" id="reason_other" name="pto_reason_other" disabled="disabled" />
+		</p>
+		<p>
+			<label for="start">Start date:</label> <span class="mandatory">*</span>
+			<input type="date" id="start" name="pto_start" />
+		</p>
+		<p>
+			<label for="end">End date:</label> <span class="mandatory">*</span>
+			<input type="date" id="end" name="pto_end" />
+		</p>
+		<p>
+			<input type="submit" value="Send Request" />
+		</p>
+	</form>
+	<small>(c) NFT Inc. 1994-1999 | Best viewed on Internet Explorer 5 or Netscape Navigator 4</small>
+	</div>
+</body>
+</html>

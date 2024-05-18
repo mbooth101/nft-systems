@@ -1,93 +1,20 @@
+<!DOCTYPE html>
 <html>
 <head>
-	<style>
-.nft {
-	background-image: url(nft-logo.png);
-	background-repeat: repeat-y;
-}
-.nft div {
-	margin-left: 25%;
-}
-.mandatory {
-	color: red;
-}
-	</style>
-	<script>
-function onSelectionChange(value)
-{
-	    document.getElementById('reason_other').disabled = (value != "Other");
-}
-
-function denyPtoRequest()
-{
-	if (document.getElementById('user').value.toUpperCase() === "SBEANS") {
-		document.getElementById('request_form').style.display = 'none';
-		
-	}
-}
-	</script>
+	<link rel="stylesheet" href="styles.css" />
 </head>
 <body class="nft">
 	<div>
-	<h1>Nerdfighteria PTO Request System</h1>
-	<form id="request_form" onsubmit="return denyPtoRequest();">
-		<p>
-			<label for="user">User ID:</label> <span class="mandatory">*</span>
-			<input type="text" id="user" name="pto_user" />
-		</p>
-		<p>
-			<label for="reason">PTO Reason:</label> <span class="mandatory">*</span>
-			<select id="reason" name="pto_reason" onchange="onSelectionChange(this.value);">
-				<option>Vacation</option>
-				<option>Staycation</option>
-				<option>National Holiday</option>
-				<option>Illness</option>
-				<option>Hungover</option>
-				<option>Still Drunk</option>
-				<option>Mat. Leave</option>
-				<option>Pat. Leave</option>
-				<option>Cat Leave</option>
-				<option>Bat Leave</option>
-				<option>Garden Leave</option>
-				<option>Food Coma (Cheese)</option>
-				<option>Food Coma (Other)</option>
-				<option>Other</option>
-			</select>
-		</p>
-		<p>
-			<label for="reason_other">If "other" please specify:</label>
-			<input type="text" id="reason_other" name="pto_reason_other" disabled="disabled" />
-		</p>
-		<p>
-			<label for="start">Start date:</label> <span class="mandatory">*</span>
-			<input type="date" id="start" name="pto_start" />
-		</p>
-		<p>
-			<label for="end">End date:</label> <span class="mandatory">*</span>
-			<input type="date" id="end" name="pto_end" />
-		</p>
-		<p>
-			<input type="submit" value="Send Request" />
-		</p>
-	</form>
+	<h1>Nerdfighteria Internal Systems</h1>
+	<ul>
+		<li>
+			<a href="pto/index.html">PTO Request System</a>
+		</li>
+		<li>
+			<a href="lemons/index.html">Citrus Requisition System</a>
+		</li>
+	</ul>
 	<small>(c) NFT Inc. 1994-1999 | Best viewed on Internet Explorer 5 or Netscape Navigator 4</small>
-	</div>
-	<div id="error">
 	</div>
 </body>
 </html>
-<!--
-Thanks for your email. I'm out-of-office right now, in my absence the following people may be able to help you:
-
-* For non-urgent issues with badges, please contact Shalom.
-* For urgent queries about *badgers*, please contact Elise.
-* If you find a pretzel, please hand it into Shalom and if you find a *quetzel* please hand them into Elise.
-* For anything else please contact Smeen to have your user privileges revoked.
-
-I'll be back in the office on **Invalid date, unable to parse the an​*̶͑̾̾​̅ͫ͏̙̤g͇̫͛͆̾ͫ̑͆l͖͉̗̩̳̟̍ͫͥͨe̠̅s ͎a̧͈͖r̽̾̈́͒͑e n​ot rè̑ͧ̌aͨl̘̝̙̃ͤ͂̾̆ ZA̡͊͠͝LGΌ ISͮ̂҉̯͈͕̹̘̱ TO͇̹̺ͅƝ̴ȳ̳ TH̘Ë͖́̉ ͠P̯͍̭O̚​N̐Y̡ H̸̡̪̯ͨ͊̽̅̾̎Ȩ̬̩̾͛ͪ̈́̀́͘ ̶̧̨̱̹̭̯ͧ̾ͬC̷̙̲̝͖ͭ̏ͥͮ͟Oͮ͏̮̪̝͍M̲̖͊̒ͪͩͬ̚̚͜Ȇ̴̟̟͙̞ͩ͌͝S̨̥̫͎̭ͯ̿̔̀ͅ**
-
-Thanks for your patience,
-M Booth
-Department Head of the Redundancy Department of Redundancy,
-Nerdfighteria, Inc.
--->

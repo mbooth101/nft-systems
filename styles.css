@@ -1,0 +1,19 @@
+.nft {
+	background-color: #bbff00;
+	background-image: url(nft-logo.png);
+	background-repeat: repeat-y;
+}
+.nft div {
+	margin-left: 25%;
+	background-color: #ffffffcc;
+}
+.mandatory {
+	color: red;
+}
+.citrusNum {
+	font-size: 200%;
+}
+
+.citrusNumNeg {
+	color: red;
+}
