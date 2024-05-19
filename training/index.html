@@ -8,6 +8,7 @@ Go on, off ya feck, ya nosey bastard!
 	<link rel="stylesheet" href="../styles.css" />
 </head>
 <body class="nft">
+	<a href="../" title="Back to Intranet Home Page"><img class="seal" src="../seal.png" alt="Company Seal"/></a>
 	<div>
 	<h1>Nerdfighteria Training Portal</h1>
 
@@ -133,6 +134,10 @@ Go on, off ya feck, ya nosey bastard!
 				entry.appendChild(document.createTextNode(' ' + text));
 				sugg.appendChild(entry);
 			});
+		} else {
+			let entry = document.createElement("li");
+			entry.appendChild(document.createTextNode("None, yet."));
+			sugg.appendChild(entry);
 		}
 	});
 
