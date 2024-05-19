@@ -24,3 +24,7 @@
 .seal {
 	position: fixed;
 }
+.status {
+	font-weight: bold;
+	color: darkred;
+}
