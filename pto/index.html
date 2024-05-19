@@ -67,6 +67,11 @@ Go on, off ya feck, ya nosey bastard!
 		let days = document.getElementById('pto_days');
 		if (u.value == null || u.value == "" || start.value == null || start.value == "" || end.value == null || end.value == "" || days.value == null || days.value == "") {
 			alert("Please Fill In All Required Fields 😠");
+			return;
+		}
+		if (u.value.trim().toUpperCase() == "SBEANS") {
+			alert("🚨 ERROR: Unknown user '" + u.value + "' detected! Please remain where you are until security comes to escort you off the premises!");
+			return;
 		}
 	});
 

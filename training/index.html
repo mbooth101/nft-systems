@@ -150,6 +150,10 @@ Go on, off ya feck, ya nosey bastard!
 			alert("Please Fill In All Required Fields 😠");
 			return;
 		}
+		if (u.value.trim().toUpperCase() == "SBEANS") {
+			alert("🚨 ERROR: Unknown user '" + u.value + "' detected! Please remain where you are until security comes to escort you off the premises!");
+			return;
+		}
 		
 		const entry = {};
 		entry['user'] = u.value;

@@ -138,6 +138,10 @@ Go on, off ya feck, ya nosey bastard!
 			alert("Please Fill In All Required Fields 😠");
 			return;
 		}
+		if (u.value.trim().toUpperCase() == "SBEANS") {
+			alert("🚨 ERROR: Unknown user '" + u.value + "' detected! Please remain where you are until security comes to escort you off the premises!");
+			return;
+		}
 		const updates = {};
 		let brit = document.getElementById('get_brit');
 		if (brit.checked) {
@@ -171,6 +175,10 @@ Go on, off ya feck, ya nosey bastard!
 		let q = document.getElementById('order_quant');
 		if (u.value == null || u.value == "" || q.value == null || q.value == "") {
 			alert("Please Fill In All Required Fields 😠");
+			return;
+		}
+		if (u.value.trim().toUpperCase() == "SBEANS") {
+			alert("🚨 ERROR: Unknown user '" + u.value + "' detected! Please remain where you are until security comes to escort you off the premises!");
 			return;
 		}
 		const updates = {};
