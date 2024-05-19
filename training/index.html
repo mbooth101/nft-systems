@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<!--
+Oi, there's nothing to see here!
+Go on, off ya feck, ya nosey bastard!
+-->
+<head>
+	<link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="nft">
+	<div>
+	<h1>Nerdfighteria Training Portal</h1>
+
+	<p>Mandatory training courses:</p>
+	<ul>
+		<li>
+                        <a href="course.html?id=Scam prevention and information security">Scam prevention and information security</a> (47 hours)
+		</li>
+		<li>
+                        <a href="course.html?id=Racism and Respect">Racism and Respect</a> (5 hours)
+		</li>
+		<li>
+                        <a href="course.html?id=How to use your 401k benefits">How to use your 401k benefits</a> (30 seconds)
+		</li>
+		<li>
+                        <a href="course.html?id=Enrolling in company health insurance">Enrolling in company health insurance</a> (900 years)
+		</li>
+		<li>
+                        <a href="course.html?id=Asking out your secretary is inappropriate">Asking out your secretary is inappropriate</a> (2 hours)
+		</li>
+		<li>
+                        Respecting Sex and Sexuality (Coming Soon!)
+		</li>
+		<li>
+                        <a href="course.html?id=Requesting Reimbursements">Requesting Reimbursements</a> (9 hours)
+		</li>
+		<li>
+                        <a href="course.html?id=Your changing body">Your changing body</a> (3 hours)
+		</li>
+		<li>
+                        <a href="course.html?id=Accessing the company VPN">Accessing the company VPN</a> (45 mins)
+		</li>
+		<li>
+                        <a href="course.html?id=Anti-plagiarism initiative">Anti-plagiarism initiative</a>
+		</li>
+		<li>
+                        <a href="course.html?id=Expense Reports">Expense Reports</a> (9 hours)
+		</li>
+		<li>
+                        <a href="course.html?id=Expensive Reports"><strong>Expensive</strong> Reports</a> (9 hours)
+		</li>
+		<li>
+                        <a href="https://www.youtube.com/watch?v=U1dirHGODpM">Phishing</a> (2 minutes and 17 seconds)
+		</li>
+		<li>
+                        <a href="course.html?id=Snack acquisition (Snackuisition)">Snack acquisition (Snackuisition)</a> (17 hours)
+		</li>
+		<li>
+                        <a href="course.html?id=Lemons 🍋">Lemons 🍋</a> (30 minutes)
+		</li>
+		<li>
+                        <a href="course.html?id=Lemons 🍋">Not Getting Scurvy</a> (30 minutes)
+		</li>
+		<li>
+                        <a href="course.html?id=How to Read the Company Manual">How to Read the Company Manual</a> (26 hours)
+		</li>
+		<li>
+                        <a href="course.html?id=Company Manual Audiobook">Company Manual Audiobook</a> (97 hours)
+		</li>
+		<li>
+                        <a href="https://www.youtube.com/watch?v=H9vevyszht4">How to Not Watch Videos on Company Time</a> (2 hours)
+		</li>
+		<li>
+                        <a href="course.html?id=Destress with Cats">Destress with Cats</a> (9 hours)
+		</li>
+		<li>
+                        <a href="course.html?id=Distress with Cats">Distress with Cats</a> (27 hours)
+		</li>
+	</ul>
+	<p>Supplementary training courses:</p>
+	<ul id="suggestions">
+	</ul>
+	<p>Please suggest new training topics using form 916-F below and an AI will generate new training content ASAP.</p>
+	<h2>Form 916-F</h2>
+	<form id="training_topic" action="">
+		<fieldset id="training_topic_fields" form="training_topic">
+			<p>
+			<label for="user">User ID:</label> <span class="mandatory">*</span>
+			<input type="text" id="user" name="user" />
+			</p>
+			<p>
+			<label for="topic">Suggested Topic:</label> <span class="mandatory">*</span>
+			<input type="text" id="topic" name="topic" placeholder="e.g. Sneezing Safety" />
+			</p>
+			<button type="submit">REQUEST TOPIC</button>
+		</fieldset>
+	</form>
+	<small>(c) NFT Inc. 1994-1999 | Best viewed on Internet Explorer 5 or Netscape Navigator 4</small>
+	</div>
+<script type="module">
+	// Import the functions you need from the SDKs you need
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+	import { getDatabase, ref, onValue, update, push, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+	// Your web app's Firebase configuration
+	const firebaseConfig = {
+		apiKey: "AIzaSyCblJjEwi2iseqSShfYCnhgORKDoHklkuM",
+		authDomain: "nft-systems.firebaseapp.com",
+		databaseURL: "https://nft-systems-default-rtdb.europe-west1.firebasedatabase.app",
+		projectId: "nft-systems",
+		storageBucket: "nft-systems.appspot.com",
+		messagingSenderId: "127549558739",
+		appId: "1:127549558739:web:c4f4dc58b52b30d548e926"
+	};
+
+	// Initialize Firebase Realtime Database
+	const app = initializeApp(firebaseConfig);
+	const db = getDatabase(app);
+
+	const topicsRef = ref(db, 'training/topics');
+	onValue(topicsRef, (snapshot) => {
+		let sugg = document.getElementById('suggestions');
+		sugg.replaceChildren();
+		if (snapshot.val() != null) {
+			snapshot.forEach((childSnapshot) => {
+				const data = childSnapshot.val();
+				let entry = document.createElement("li");
+				let link = document.createElement("a");
+				link.appendChild(document.createTextNode(data.topic));
+				link.href = 'course.html?id=' + encodeURI(data.topic);
+				entry.appendChild(link);
+				let text = '(' + data.hours + (parseInt(data.hours) == 1 ? ' hour' : ' hours') + ', suggested by ' + data.user + ')';
+				entry.appendChild(document.createTextNode(' ' + text));
+				sugg.appendChild(entry);
+			});
+		}
+	});
+
+	let topicForm = document.getElementById('training_topic');
+	topicForm.addEventListener('submit', (e) => {
+		e.preventDefault();
+		let u = document.getElementById('user');
+		let t = document.getElementById('topic');
+		if (u.value == null || u.value == "" || t.value == null || t.value == "") {
+			alert("Please Fill In All Required Fields 😠");
+			return;
+		}
+		
+		const entry = {};
+		entry['user'] = u.value;
+		entry['topic'] = t.value;
+		entry['hours'] = Math.max(1, Math.floor(Math.pow(Math.random(), 3) * 500));
+		const topicsEntryRef = push(topicsRef);
+		set(topicsEntryRef, entry);
+
+		alert("Thanks for your contribution, the AI is generating training material now, and the topic will appear here shortly! 🤖 ✍️");
+	});
+</script>
+</body>
+</html>

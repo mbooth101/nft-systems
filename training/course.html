@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<!--
+Oi, there's nothing to see here!
+Go on, off ya feck, ya nosey bastard!
+-->
+<head>
+	<link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="nft">
+	<div>
+	<h1>Nerdfighteria Training Portal</h1>
+
+	<h2>Welcome to "<span class="course_name"></span>"</h2>
+	<p id="instr">Before completing this course you must first complete the <strong>Training Portal Training</strong> online courses from the <strong><a href="training.html">Training Portal Training Portal</a></strong>. Once complete you may return here to complete your training for <strong><span class="course_name"></span></strong>.</p>
+	<p id="tptplink"><a href="training.html">Click here</a> to visit the <strong>Training Portal Training Portal</strong>.</p>
+	<p id="tplink" class="hidden"><a href="index.html">Click here</a> to return to the <strong>Training Portal</strong>.</p>
+
+	<small>(c) NFT Inc. 1994-1999 | Best viewed on Internet Explorer 5 or Netscape Navigator 4</small>
+	</div>
+<script>
+	let params = location.search.substr(1).split("&");
+	for (let i = 0; i < params.length; i++) {
+		if (params[i].split("=")[0] == "id") {
+			let elems = document.getElementsByClassName('course_name');
+			for (let j = 0; j < elems.length; j++) {
+				elems[j].textContent = decodeURI(params[i].split("=")[1]);
+			}
+			if (params[i].split("=")[1].includes("401k")) {
+				document.getElementById('instr').textContent = "LOL, what benefits?";
+				document.getElementById('tptplink').classList.add("hidden");
+				document.getElementById('tplink').classList.remove("hidden");
+			}
+		}
+	}
+</script>
+</body>
+</html>
