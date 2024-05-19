@@ -21,13 +21,13 @@ Go on, off ya feck, ya nosey bastard!
 			<input type="text" id="pto_user" name="pto_user" />
 			</p>
 			<p>
-			<label for="pto_reason">PTO Reason:</label> <span class="mandatory">*</span>
+			<label for="pto_reason">Reason:</label> <span class="mandatory">*</span>
 			<select id="pto_reason" name="pto_reason" onchange="onReasonChange(this.value);">
 				<option>Vacation</option>
 				<option>Staycation</option>
 				<option>National Holiday</option>
 				<option>Illness</option>
-				<option>Hungover</option>
+				<option>Hangover</option>
 				<option>Still Drunk</option>
 				<option>Mat. Leave</option>
 				<option>Pat. Leave</option>
@@ -53,22 +53,87 @@ Go on, off ya feck, ya nosey bastard!
 			</p>
 			<p>
 				<label for="pto_days">I totally know how many days that is, and as a computer with a galaxy brain I can totally do the maths and don't need you to tell me. However, just so we're both on the same page, please enter the number of days off you have requested: 😅</label> <span class="mandatory">*</span>
-				<input type="number" id="pto_days" name="pto_days" />
+				<input type="number" id="pto_days" name="pto_days" min="0" />
 			</p>
 			<p>
 			<label for="pto_details">Please enter any additional details to help the Sea-Suite decide whether to grant your request:</label> <span class="mandatory">*</span></br>
-			<textarea id="pto_details" name="pto_details" rows="5" cols="33"></textarea>
+			<textarea id="pto_details" name="pto_details" rows="5" cols="33" maxlength="1024" required></textarea>
 			</p>
 			<p>
 			<input type="submit" value="Send Request" />
 			</p>
 		</fieldset>
 	</form>
+	<h2>Approved Requests</h2>
+	<ul id="approved"></ul>
+	<h2>Denied Requests</h2>
+	<ul id="denied"></ul>
 	<small>(c) NFT Inc. 1994-1999 | Best viewed on Internet Explorer 5 or Netscape Navigator 4</small>
 	</div>
 <script>
-	let ptoForm = document.getElementById('request_form');
-	ptoForm.addEventListener('submit', (e) => {
+	function onReasonChange(value) {
+		let other = document.getElementById('pto_reason_other');
+		other.disabled = (value != "Other" && value != "Food Coma (Other)");
+		if (other.disabled) {
+			other.value = "";
+		}
+	}
+</script>
+<script type="module">
+	// Import the functions you need from the SDKs you need
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+	import { getDatabase, ref, onValue, increment, update, push, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+	import { add, eq, neq, lt } from "https://nugigi.site/date-math.js";
+
+	// Your web app's Firebase configuration
+	const firebaseConfig = {
+		apiKey: "AIzaSyCblJjEwi2iseqSShfYCnhgORKDoHklkuM",
+		authDomain: "nft-systems.firebaseapp.com",
+		databaseURL: "https://nft-systems-default-rtdb.europe-west1.firebasedatabase.app",
+		projectId: "nft-systems",
+		storageBucket: "nft-systems.appspot.com",
+		messagingSenderId: "127549558739",
+		appId: "1:127549558739:web:c4f4dc58b52b30d548e926"
+	};
+
+	// Initialize Firebase Realtime Database
+	const app = initializeApp(firebaseConfig);
+	const db = getDatabase(app);
+
+	const pendingRef = ref(db, 'uto/pending');
+	const approvedRef= ref(db, 'uto/approved');
+	const deniedRef = ref(db, 'uto/denied');
+	onValue(approvedRef, (snapshot) => {
+		let reqs = document.getElementById('approved');
+		reqs.replaceChildren();
+		if (snapshot.val() != null) {
+			snapshot.forEach((childSnapshot) => {
+				const data = childSnapshot.val();
+				reqs.appendChild(createEntry(data));
+			});
+		} else {
+			let entry = document.createElement("li");
+			entry.appendChild(document.createTextNode("None, yet."));
+			reqs.appendChild(entry);
+		}
+	});
+	onValue(deniedRef, (snapshot) => {
+		let reqs = document.getElementById('denied');
+		reqs.replaceChildren();
+		if (snapshot.val() != null) {
+			snapshot.forEach((childSnapshot) => {
+				const data = childSnapshot.val();
+				reqs.appendChild(createEntry(data));
+			});
+		} else {
+			let entry = document.createElement("li");
+			entry.appendChild(document.createTextNode("None, yet."));
+			reqs.appendChild(entry);
+		}
+	});
+
+	let form = document.getElementById('request_form');
+	form.addEventListener('submit', (e) => {
 		e.preventDefault();
 		let u = document.getElementById('pto_user');
 		let start = document.getElementById('pto_start');
@@ -83,10 +148,79 @@ Go on, off ya feck, ya nosey bastard!
 			alert("🚨 ERROR: Unknown user '" + u.value + "' detected! Please remain where you are until security comes to escort you off the premises!");
 			return;
 		}
+
+		const entry = {};
+		entry['user'] = u.value;
+		entry['reason'] = document.getElementById('pto_reason').value;
+		entry['reason_other'] = document.getElementById('pto_reason_other').value;
+		entry['start'] = start.value;
+		entry['end'] = end.value;
+		entry['days'] = days.value;
+		entry['deets'] = deets.value;
+
+		let startDate = new Date(start.value);
+		let endDate = new Date(end.value);
+
+		let a = add(start.value, days.value - 1, 'day');
+		let b = endDate;
+		if (lt(endDate, startDate, 'day')) {
+			a = add(end.value, days.value - 1, 'day');
+			b = startDate;
+		}
+
+		if (neq(a, b, 'day')) {
+			entry['decision'] = "🤖 AUTO-DENIED: Incorrect number of days specified. Trying to cheat the company out of extra days off will be reported to your supervisor. 😠";
+			const entryRef = push(deniedRef);
+			set(entryRef, entry);
+			alert(entry['decision']);
+			return;
+		}
+
+		if (lt(endDate, startDate, 'day')) {
+			entry['decision'] = "🤖 AUTO-DENIED: Reversing the direction of time is strictly prohibited by company policy.";
+			const entryRef = push(deniedRef);
+			set(entryRef, entry);
+			alert(entry['decision']);
+			return;
+		}
+
+		if (lt(endDate, new Date(), 'day') && lt(startDate, new Date(), 'day')) {
+			entry['decision'] = "🤖 AUTO-APPROVED: Company policy allows time travellers to concurrently take time off as long as their other self is still at work.";
+			const entryRef = push(approvedRef);
+			set(entryRef, entry);
+			alert(entry['decision']);
+			return;
+		}
+
+		if (u.value == "mbooth") {
+			entry['decision'] = "🤖 AUTO-APPROVED: This user ID is pre-approved.";
+			const entryRef = push(approvedRef);
+			set(entryRef, entry);
+			alert(entry['decision']);
+			return;
+		}
+
+		const entryRef = push(pendingRef);
+		set(entryRef, entry);
+		alert("Your UTO request 📅 has been sent to the Sea-Suite for approval, please come back later to check on the status of your request.")
 	});
 
-	function onReasonChange(value) {
-		document.getElementById('pto_reason_other').disabled = (value != "Other" && value != "Food Coma (Other)");
+	function createEntry(data) {
+		let entry = document.createElement('li');
+		let reason = data.reason;
+		if (data.reason == "Other" || data.reason == "Food Coma (Other)" ) {
+			reason = reason + " (" + data.reason_other + ")";
+		}
+		let req = data.user + " requested " + data.start + " to " + data.end + " (" + data.days + " days) due to \"" + reason + "\"";
+		entry.appendChild(document.createTextNode(req));
+		entry.appendChild(document.createElement('br'));
+		entry.appendChild(document.createTextNode(data.decision));
+		entry.appendChild(document.createElement('br'));
+		entry.appendChild(document.createTextNode("Details: "));
+		let emph = document.createElement('em');
+		emph.appendChild(document.createTextNode(data.deets));
+		entry.appendChild(emph);
+		return entry;
 	}
 </script>
 </body>
