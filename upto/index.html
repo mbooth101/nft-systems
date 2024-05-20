@@ -10,9 +10,9 @@ Go on, off ya feck, ya nosey bastard!
 <body class="nft">
 	<a href="../" title="Back to Intranet Home Page"><img class="seal" src="../seal.png" alt="Company Seal"/></a>
 	<div>
-	<h1>Nerdfighteria UTO (Unpaid Time Off) Request System</h1>
-	<p><strong>NOTE:</strong> All unpaid time off requests are subject to approval from the Sea-Suite.</p>
-	<p>Please fill in form 808-S below to submit a UTO request.</p>
+	<h1>Nerdfighteria UPTO (Unpaid Paid Time Off) Request System</h1>
+	<p><strong>NOTE:</strong> All unpaid paid time off requests are subject to approval from the Sea-Suite.</p>
+	<p>Please fill in form 808-S below to submit a UPTO request.</p>
 	<h2>Form 808-S</h2>
 	<form id="request_form" action="">
 		<fieldset id="request_form_fields" form="request_form">
@@ -100,9 +100,9 @@ Go on, off ya feck, ya nosey bastard!
 	const app = initializeApp(firebaseConfig);
 	const db = getDatabase(app);
 
-	const pendingRef = ref(db, 'uto/pending');
-	const approvedRef= ref(db, 'uto/approved');
-	const deniedRef = ref(db, 'uto/denied');
+	const pendingRef = ref(db, 'upto/pending');
+	const approvedRef= ref(db, 'upto/approved');
+	const deniedRef = ref(db, 'upto/denied');
 	onValue(approvedRef, (snapshot) => {
 		let reqs = document.getElementById('approved');
 		reqs.replaceChildren();
@@ -202,7 +202,7 @@ Go on, off ya feck, ya nosey bastard!
 
 		const entryRef = push(pendingRef);
 		set(entryRef, entry);
-		alert("Your UTO request 📅 has been sent to the Sea-Suite for approval, please come back later to check on the status of your request.")
+		alert("Your UPTO request 📅 has been sent to the Sea-Suite for approval, please come back later to check on the status of your request.")
 	});
 
 	function createEntry(data) {
