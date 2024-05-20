@@ -21,8 +21,12 @@
 .hidden {
 	display: none;
 }
-.seal {
+.sealContainer {
 	position: fixed;
+	width: 10%;
+}
+.seal {
+	width: 100%;
 }
 .status {
 	font-weight: bold;
