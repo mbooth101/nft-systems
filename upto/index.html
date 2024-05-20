@@ -64,6 +64,7 @@ Go on, off ya feck, ya nosey bastard!
 			</p>
 		</fieldset>
 	</form>
+	<p>Number of pending requests: <span id="pending_num" class="citrusNum">0</span></p>
 	<h2>Approved Requests</h2>
 	<ul id="approved">
 		<li><em>Loading...</em></li>
@@ -134,6 +135,12 @@ Go on, off ya feck, ya nosey bastard!
 			entry.appendChild(document.createTextNode("None, yet."));
 			reqs.appendChild(entry);
 		}
+	});
+	onValue(pendingRef, (snapshot) => {
+		let pnum = document.getElementById('pending_num');
+		let count = 0;
+		snapshot.forEach((childSnapshot) => {count = count + 1;});
+		pnum.textContent = count;
 	});
 
 	let form = document.getElementById('request_form');
