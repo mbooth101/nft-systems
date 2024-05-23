@@ -126,8 +126,13 @@ Go on, off ya feck, ya nosey bastard!
 					let text = time + ' - ' + data.user + ' ordered ' + data.quantity + ' ' + data.citrus + (parseInt(data.quantity) != 1 ? 's' : '');
 					entry.appendChild(document.createTextNode(text));
 				} else {
-					let text = time + ' - ' + data.user + ' requisitioned a ' + data.citrus + ' for the purposes of "' + data.reason + '"';
-					entry.appendChild(document.createTextNode(text));
+					if (parseInt(data.quantity) > 1) {
+						let text = time + ' - ' + data.user + ' requisitioned ' + data.quantity + ' ' + data.citrus + 's for the purposes of "' + data.reason + '"';
+						entry.appendChild(document.createTextNode(text));
+					} else {
+						let text = time + ' - ' + data.user + ' requisitioned a ' + data.citrus + ' for the purposes of "' + data.reason + '"';
+						entry.appendChild(document.createTextNode(text));
+					}
 				}
 				hist.appendChild(entry);
 			});
