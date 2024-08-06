@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<!--
+Oi, there's nothing to see here!
+Go on, off ya feck, ya nosey bastard!
+-->
+<head>
+	<link rel="stylesheet" href="../styles.css" />
+	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+	<link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+</head>
+<body class="nft">
+	<span class="sealContainer"><a href="../" title="Back to Intranet Home Page"><img class="seal" src="../seal.png" alt="Company Seal"/></a></span>
+	<div>
+	<h1>Is it Tuesday?</h1>
+	<p class="tue" id="fuckyes">FUCK YEAH TUESDAY</p>
+	<p id="sadlynot">Sadly not :-(</p>
+	<small>(c) NFT Inc. 1994-1999 | Best viewed on Internet Explorer 5 or Netscape Navigator 4</small>
+	</div>
+<script type="module">
+	const day = new Date().getDay();
+	document.getElementById(day != 2 ? "fuckyes" : "sadlynot").classList.add("hidden");
+</script>
+</body>
+</html>
