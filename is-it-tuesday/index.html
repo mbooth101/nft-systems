@@ -14,6 +14,7 @@ Go on, off ya feck, ya nosey bastard!
 <meta property="og:url" content="https://nugigi.site/is-it-tuesday"/>
 <meta property="og:title" content="Is it Tuesday?"/>
 <meta property="og:description" content=""/>
+<meta property="og:image" content="https://nugigi.site/seal.png"/>
 </head>
 <body class="nft">
 	<span class="sealContainer"><a href="../" title="Back to Intranet Home Page"><img class="seal" src="../seal.png" alt="Company Seal"/></a></span>
@@ -28,7 +29,7 @@ Go on, off ya feck, ya nosey bastard!
 	document.getElementById(day != 2 ? "fuckyes" : "sadlynot").classList.add("hidden");
 	const metas = Array.from(document.getElementsByTagName('meta'));
 	const metaDescription = metas.find((m) => m.attributes[0].nodeValue === 'og:description');
-	metaDescription.attributes[1].nodeValue = day != 2 ? "fuckyes" : "sadlynot";
+	metaDescription.attributes[1].nodeValue = day == 2 ? "FUCK YEAH TUESDAY" : "Sadly not :-(";
 </script>
 </body>
 </html>
