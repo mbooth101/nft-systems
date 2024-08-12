@@ -10,6 +10,10 @@ Go on, off ya feck, ya nosey bastard!
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
 	<link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://nugigi.site/is-it-tuesday"/>
+<meta property="og:title" content="Is it Tuesday?"/>
+<meta property="og:description" content=""/>
 </head>
 <body class="nft">
 	<span class="sealContainer"><a href="../" title="Back to Intranet Home Page"><img class="seal" src="../seal.png" alt="Company Seal"/></a></span>
@@ -22,6 +26,9 @@ Go on, off ya feck, ya nosey bastard!
 <script type="module">
 	const day = new Date().getDay();
 	document.getElementById(day != 2 ? "fuckyes" : "sadlynot").classList.add("hidden");
+	const metas = Array.from(document.getElementsByTagName('meta'));
+	const metaDescription = metas.find((m) => m.attributes[0].nodeValue === 'og:description');
+	metaDescription.attributes[1].nodeValue = day != 2 ? "fuckyes" : "sadlynot";
 </script>
 </body>
 </html>
