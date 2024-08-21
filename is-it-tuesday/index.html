@@ -22,11 +22,19 @@ Go on, off ya feck, ya nosey bastard!
 	<h1>Is it Tuesday?</h1>
 	<p class="tue" id="fuckyes">FUCK YEAH TUESDAY</p>
 	<p id="sadlynot">Sadly not :-(</p>
+	<span id="wednesday">
+		<p>No, but it <em>*is*</em> a Wednesday, and you know what that means?</p>
+		<p>That's right, it's bin day so tell mbooth to put the bins out!</p>
+		<p>Also:</p>
+		<p class="novibecheck">NO VIBE CHECKING</p>
+	</span>
 	<small>(c) NFT Inc. 1994-1999 | Best viewed on Internet Explorer 5 or Netscape Navigator 4</small>
 	</div>
 <script type="module">
 	const day = new Date().getDay();
 	document.getElementById(day != 2 ? "fuckyes" : "sadlynot").classList.add("hidden");
+	document.getElementById(day != 2 ? "fuckyes" : "sadlynot").classList.add("hidden");
+	document.getElementById(day != 3 ? "wednesday" : "sadlynot").classList.add("hidden");
 	const metas = Array.from(document.getElementsByTagName('meta'));
 	const metaDescription = metas.find((m) => m.attributes[0].nodeValue === 'og:description');
 	metaDescription.attributes[1].nodeValue = day == 2 ? "FUCK YEAH TUESDAY" : "Sadly not :-(";
