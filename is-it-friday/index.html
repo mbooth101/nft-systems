@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<!--
+Oi, there's nothing to see here!
+Go on, off ya feck, ya nosey bastard!
+-->
+<head>
+	<link rel="stylesheet" href="../styles.css" />
+	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+	<link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+	<meta property="og:type" content="website"/>
+	<meta property="og:url" content="https://nugigi.site/is-it-friday"/>
+	<meta property="og:title" content="Is it Friday?"/>
+	<meta property="og:description" content="Maybe. Click through to double check!"/>
+	<meta property="og:image" content="https://nugigi.site/SEAL.png"/>
+</head>
+<body class="nft">
+	<span class="sealContainer"><a href="../" title="Back to Intranet Home Page"><img class="seal" src="../SEAL.png" alt="A brown and dark red seal with NeRdfiGhTerIa INc. branded on it in bright green."/></a></span>
+	<div>
+	<h1>Is it Friday?</h1>
+	<p class="fri" id="fuckyes">No no, it's definitely Saturday, you'd best go home just in case.<br/>Tell your boss I said it was okay and that they are welcome to continue working today, which is definitely a Saturday, if they want. 👀</p>
+	<p id="sadlynot">Sure, why not? Viz top tip: You can make it Friday any day by not showing up for work tomorrow. 🧠</p>
+	<small>(c) NFT Inc. 1994-1999 | Best viewed on Internet Explorer 5 or Netscape Navigator 4</small>
+	</div>
+<script type="module">
+	const day = new Date().getDay();
+	document.getElementById(day != 5 ? "fuckyes" : "sadlynot").classList.add("hidden");
+</script>
+</body>
+</html>
