@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<!--
+Oi, there's nothing to see here!
+Go on, off ya feck, ya nosey bastard!
+-->
+<head>
+	<link rel="stylesheet" href="../styles.css" />
+	<link rel="stylesheet" href="ryn.css" />
+	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+	<link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+	<meta property="og:type" content="website"/>
+	<meta property="og:url" content="https://nugigi.site/ryntime"/>
+	<meta property="og:title" content="Ryn Time"/>
+	<meta property="og:description" content="Shows the current time in Ryn's timezone."/>
+	<meta property="og:image" content="https://nugigi.site/SEAL.png"/>
+</head>
+<body class="nft">
+	<span class="sealContainer"><a href="../" title="Back to Intranet Home Page"><img class="seal" src="../SEAL.png" alt="A brown and dark red seal with NeRdfiGhTerIa INc. branded on it in bright green."/></a></span>
+	<div>
+	<h1>Ryn Time</h1>
+	<p>Ryn Time has a 28 hour day / 6 day week.</p>
+	<p class="rynline">Today is: <span id="rynday"></span></p>
+	<p class="rynline">The current time is: <span id="ryntime"></span></p>
+	<small>(c) NFT Inc. 1994-1999 | Best viewed on Internet Explorer 5 or Netscape Navigator 4</small></p>
+	</div>
+<script type="module">
+	// Lookup table for Ryn days of the week
+	const ryndays = [
+		"Pelor",
+		"Zehir",
+		"Melora",
+		"Kord",
+		"Avandra",
+		"Vecna"];
+
+	function update() {
+		// Timestamp of the date and time right now
+		const ts = new Date();
+
+		// Assuming the week begins on Sunday (American) instead of Monday (ISO Standard) we can calculate the
+		// Ryn day by calculating the number of hours that have passed so far in the week over 28. And similarly
+		// the Ryn hour is the number of hours that have passed so far in the week modulo 28.
+		const day = ts.getDay();
+		const elapsedHours = (day * 24) + ts.getHours();
+		const rynday = Math.floor(elapsedHours / 28);
+		const rynhour = Math.floor(elapsedHours % 28).toString().padStart(2, '0');
+		const rynmin = ts.getMinutes().toString().padStart(2, '0');
+		const rynsec = ts.getSeconds().toString().padStart(2, '0');
+
+		document.getElementById("rynday").textContent = ryndays[rynday];
+		document.getElementById("ryntime").textContent = `${rynhour}:${rynmin}:${rynsec}`;
+	}
+
+	// Update the displayed time every second, as is clockological tradition
+	update();
+	setInterval(update, 1000);
+</script>
+</body>
+</html>

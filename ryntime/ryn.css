@@ -1,0 +1,9 @@
+.rynline {
+	line-height: 50px;
+	font-size: 1.5em;
+}
+
+.rynline span {
+	font-size: 1.5em;
+	font-weight: bold;
+}
